@@ -47,9 +47,12 @@ func (h *BakerHandler) Bake(
 		return nil, status.Errorf(codes.InvalidArgument, "パンケーキを選んでください！")
 	}
 
+	// データを保存する BakerHandlerの構造体に保存
 	//パンを焼いて、数を記録します
 	now := time.Now()
+	// Lock/Unlock関数
 	h.report.Lock()
+	// 枚数を記録
 	h.report.data[req.Menu] = h.report.data[req.Menu] + 1
 	h.report.Unlock()
 
