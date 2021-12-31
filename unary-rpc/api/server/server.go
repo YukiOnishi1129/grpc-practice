@@ -10,6 +10,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"pancake.maker/get/api"
+	"pancake.maker/handler"
 )
 
 func main() {
@@ -19,6 +20,8 @@ func main() {
 		log.Fatalf("failed to listen: &v", err)
 	}
 	server := grpc.NewServer()
+	// .protoに定義したPancakeBakerServiceに対応している
+	// 第二引数のハンドラに対応するメソッド(bakeかreport)を呼び出す
 	api.RegisterPancakeBakerServiceServer(server, handler.NewBakerHandler())
 	reflection.Register(server)
 
