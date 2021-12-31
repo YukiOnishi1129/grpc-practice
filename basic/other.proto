@@ -1,0 +1,6 @@
+// import
+import "./myapp/addressbook.proto"
+
+message OtherApp {
+    myapp.Person = 1;
+}
