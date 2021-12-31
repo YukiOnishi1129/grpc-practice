@@ -23,6 +23,7 @@ func main() {
 	// .protoに定義したPancakeBakerServiceに対応している
 	// 第二引数のハンドラに対応するメソッド(bakeかreport)を呼び出す
 	api.RegisterPancakeBakerServiceServer(server, handler.NewBakerHandler())
+	// サーバーリフレクションを有効
 	reflection.Register(server)
 
 	go func() {
