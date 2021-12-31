@@ -1,0 +1,63 @@
+
+// バージョン
+syntax = "proto3";
+
+// パッケージ定義
+package myapp;
+
+// APIにおけるサービスを定義
+// 複数のRPCメソッドを定義できる
+service AddressBookService {
+    // rpcメソッド
+    rpc Search (SearchRequest) returns (SearchResponse);
+
+    // 引数と返り値の前にstreamを付加すると、単方向/双方向ストリーミングRPCを表現できる
+
+    // サーバーストリーミングRPC
+    rpc SearchLlikeBrokenRadio (SearchRequest) returns (stream SearchResponse);
+
+    // クライアントストリーミングRPC
+    rpc SearchDuplicatedQuery (stream SearchRequest) returns (SearchResponse);
+
+    // 双方向ストリーミングRPC
+    rpc SearchCrazy (stream SearchRequest) returns (stream SearchResponse);
+}
+
+message SearchRequest {
+    // スカラー型
+    string name = 1;
+}
+
+message SearchResponse {
+    Person person = 1;
+}
+
+// message型
+// 複数のフィールドを持つ
+// 各言語に自動生成された際に、構造体やクラスとして書き出される
+message Person {
+    // タグナンバーは同じメッセージの中で一意
+    // フィールドを識別するために必要
+    int32 id = 1;// =の右の数字はタグナンバー
+    string name = 2;
+    string email = 3;
+    // repeated 配列を表現
+    repeated PhoneNumber phone_numbers = 4 [deprecated = true];
+
+    reserved 7, 8, 10 to 19;
+    reserved "fax_number";
+
+    // 列挙型
+    enum PhoneType {
+        UNKNOWN = 0;
+        MOBILE = 1;
+        HOME = 2;
+        WORK = 3;
+    }
+
+    // messageの中でmessageをネストさせて定義できる
+    message PhoneNumber {
+        string number = 1;
+        PhoneType phone_type = 2;
+    }
+}
